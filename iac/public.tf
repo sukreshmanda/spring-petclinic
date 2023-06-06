@@ -1,7 +1,7 @@
 resource "aws_subnet" "pet-clinic-public-subnet" {
   vpc_id                  = aws_vpc.pet-clinic-vpc.id
   availability_zone       = "ap-south-1a"
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, 0)
   map_public_ip_on_launch = true
   tags                    = {
     Name    = "pet-clinic-public-subnet"

@@ -1,7 +1,7 @@
 resource "aws_subnet" "pet-clinic-private-subnet" {
   vpc_id                  = aws_vpc.pet-clinic-vpc.id
   availability_zone       = "ap-south-1a"
-  cidr_block              = "10.0.2.0/24"
+  cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, 1)
   map_public_ip_on_launch = false
   tags                    = {
     Name    = "pet-clinic-private-subnet"
@@ -11,7 +11,7 @@ resource "aws_subnet" "pet-clinic-private-subnet" {
 resource "aws_subnet" "pet-clinic-db-subnet" {
   vpc_id                  = aws_vpc.pet-clinic-vpc.id
   availability_zone       = "ap-south-1a"
-  cidr_block              = "10.0.3.0/24"
+  cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, 2)
   map_public_ip_on_launch = false
   tags                    = {
     Name    = "pet-clinic-db-subnet"
