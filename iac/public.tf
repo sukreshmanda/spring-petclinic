@@ -1,7 +1,8 @@
 resource "aws_subnet" "pet-clinic-public-subnet" {
+  for_each                = { "0" : "ap-south-1a", "3" : "ap-south-1b" }
   vpc_id                  = aws_vpc.pet-clinic-vpc.id
-  availability_zone       = "ap-south-1a"
-  cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, 0)
+  availability_zone       = each.value
+  cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, each.key)
   map_public_ip_on_launch = true
   tags                    = {
     Name    = "pet-clinic-public-subnet"
@@ -30,6 +31,7 @@ resource "aws_route_table" "pet-clinic-public" {
 }
 
 resource "aws_route_table_association" "pet-clinic-public-subnet-association" {
+  for_each       = toset(["0", "3"])
   route_table_id = aws_route_table.pet-clinic-public.id
-  subnet_id      = aws_subnet.pet-clinic-public-subnet.id
+  subnet_id      = aws_subnet.pet-clinic-public-subnet[each.key].id
 }

@@ -9,3 +9,6 @@ variable "SUBNET_SIZE" {
   description = "size of each subnet"
   default     = 8
 }
+variable "DB_SUBNET_MAPPING" {
+  default = { "2" : "ap-south-1a", "5" : "ap-south-1b" }
+}
