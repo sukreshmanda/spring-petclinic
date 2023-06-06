@@ -1,5 +1,5 @@
 resource "aws_subnet" "pet-clinic-private-subnet" {
-  for_each                = { "1" : "ap-south-1a", "4" : "ap-south-1b" }
+  for_each                = var.PRIVATE_SUBNET_MAPPING
   vpc_id                  = aws_vpc.pet-clinic-vpc.id
   availability_zone       = each.value
   cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, each.key)
@@ -54,13 +54,13 @@ resource "aws_route_table" "pet-clinic-private" {
 }
 
 resource "aws_route_table_association" "pet-clinic-private-subnet-association" {
-  for_each       = toset(["1", "4"])
+  for_each       = var.PRIVATE_SUBNET_MAPPING
   route_table_id = aws_route_table.pet-clinic-private.id
   subnet_id      = aws_subnet.pet-clinic-private-subnet[each.key].id
 }
 
 resource "aws_route_table_association" "pet-clinic-db-subnet-association" {
-  for_each       = toset(["2", "5"])
+  for_each       = var.DB_SUBNET_MAPPING
   route_table_id = aws_route_table.pet-clinic-private.id
   subnet_id      = aws_subnet.pet-clinic-db-subnet[each.key].id
 }
