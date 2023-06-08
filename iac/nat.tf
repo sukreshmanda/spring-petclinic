@@ -10,16 +10,11 @@ resource "aws_nat_gateway" "pet-clinic-nat-gateway-1" {
   }
 }
 resource "aws_eip" "pet-clinic-nat-eip-1" {
-  tags     = {
-    domain   = "vpc"
+  tags = {
     Name    = "pet-clinic-nat-eip-0"
     Creator = "Sukresh"
   }
 }
-
-
-
-
 
 
 resource "aws_nat_gateway" "pet-clinic-nat-gateway-2" {
@@ -34,9 +29,8 @@ resource "aws_nat_gateway" "pet-clinic-nat-gateway-2" {
   }
 }
 resource "aws_eip" "pet-clinic-nat-eip-2" {
-  tags     = {
-  domain   = "vpc"
-  Name    = "pet-clinic-nat-eip-0"
+  tags = {
+    Name    = "pet-clinic-nat-eip-0"
     Creator = "Sukresh"
   }
 }
