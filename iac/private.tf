@@ -36,7 +36,7 @@ resource "aws_nat_gateway" "pet-clinic-nat-gateway" {
     aws_internet_gateway.pet-clinic-ig
   ]
   tags = {
-    Name    = "pet-clinic-nat-gateway"
+    Name    = "pet-clinic-nat-gateway-${aws_subnet.pet-clinic-public-subnet["0"].availability_zone}"
     Creator = "Sukresh"
   }
 }
