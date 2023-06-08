@@ -29,9 +29,28 @@ resource "aws_route_table" "pet-clinic-public" {
     Creator = "Sukresh"
   }
 }
-
 resource "aws_route_table_association" "pet-clinic-public-subnet-association" {
   for_each       = var.PUBLIC_SUBNET_MAPPING
   route_table_id = aws_route_table.pet-clinic-public.id
   subnet_id      = aws_subnet.pet-clinic-public-subnet[each.key].id
+}
+resource "aws_eip" "pet-clinic-nat-eip" {
+  for_each = aws_subnet.pet-clinic-public-subnet
+  domain   = "vpc"
+  tags     = {
+    Name    = "pet-clinic-nat-eip-${each.value.availability_zone}"
+    Creator = "Sukresh"
+  }
+}
+resource "aws_nat_gateway" "pet-clinic-nat-gateway" {
+  for_each      = aws_subnet.pet-clinic-public-subnet
+  subnet_id     = each.value.id
+  allocation_id = aws_eip.pet-clinic-nat-eip[each.key].id
+  depends_on    = [
+    aws_internet_gateway.pet-clinic-ig
+  ]
+  tags = {
+    Name    = "pet-clinic-nat-gateway-${each.value.availability_zone}"
+    Creator = "Sukresh"
+  }
 }
