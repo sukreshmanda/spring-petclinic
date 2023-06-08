@@ -5,7 +5,7 @@ resource "aws_subnet" "pet-clinic-private-subnet" {
   cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, each.key)
   map_public_ip_on_launch = false
   tags                    = {
-    Name    = "pet-clinic-private-subnet"
+    Name    = "pet-clinic-private-subnet-${each.value}"
     Creator = "Sukresh"
   }
 }
@@ -16,7 +16,7 @@ resource "aws_subnet" "pet-clinic-db-subnet" {
   cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, each.key)
   map_public_ip_on_launch = false
   tags                    = {
-    Name    = "pet-clinic-db-subnet"
+    Name    = "pet-clinic-db-subnet-${each.value}"
     Creator = "Sukresh"
   }
 }

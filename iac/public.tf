@@ -5,7 +5,7 @@ resource "aws_subnet" "pet-clinic-public-subnet" {
   cidr_block              = cidrsubnet(aws_vpc.pet-clinic-vpc.cidr_block, var.SUBNET_SIZE, each.key)
   map_public_ip_on_launch = true
   tags                    = {
-    Name    = "pet-clinic-public-subnet"
+    Name    = "pet-clinic-public-subnet-${each.value}"
     Creator = "Sukresh"
   }
 }
