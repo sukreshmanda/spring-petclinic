@@ -22,9 +22,10 @@ resource "aws_subnet" "pet-clinic-db-subnet" {
 }
 
 resource "aws_eip" "pet-clinic-nat-eip" {
-  domain = "vpc"
-  tags   = {
-    Name    = "pet-clinic-nat-eip"
+  for_each = aws_subnet.pet-clinic-public-subnet
+  domain   = "vpc"
+  tags     = {
+    Name    = "pet-clinic-nat-eip-${each.value.availability_zone}"
     Creator = "Sukresh"
   }
 }
@@ -32,7 +33,7 @@ resource "aws_eip" "pet-clinic-nat-eip" {
 resource "aws_nat_gateway" "pet-clinic-nat-gateway" {
   for_each      = aws_subnet.pet-clinic-public-subnet
   subnet_id     = each.value.id
-  allocation_id = aws_eip.pet-clinic-nat-eip.id
+  allocation_id = aws_eip.pet-clinic-nat-eip[each.key].id
   depends_on    = [
     aws_internet_gateway.pet-clinic-ig
   ]
